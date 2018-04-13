@@ -1,6 +1,7 @@
 # FactionsAddons
 
 FactionsAddons is plugin that adds useful features for Factions servers.
+
 Spigot: https://www.spigotmc.org/resources/factionsaddons.55665/
 
 Features:
