@@ -7,6 +7,7 @@ import me.mtm123.factionsaddons.commands.CoreCommand;
 import me.mtm123.factionsaddons.config.ConfigManager;
 import me.mtm123.factionsaddons.listeners.PacketListener;
 import me.mtm123.factionsaddons.listeners.player.PlayerLoginStateListener;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -44,6 +45,9 @@ public class FactionsAddons extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(PlayerSettings.class);
         loadPlugin(false);
+
+        //bStats
+        Metrics metrics = new Metrics(this);
     }
 
     @Override
