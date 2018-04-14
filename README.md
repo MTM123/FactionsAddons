@@ -1,7 +1,8 @@
 # FactionsAddons
 
 FactionsAddons is plugin that adds useful features for Factions servers.
-Spigot: soon
+
+Spigot: https://www.spigotmc.org/resources/factionsaddons.55665/
 
 Features:
 * Hides ignited TNT to increase fps.
