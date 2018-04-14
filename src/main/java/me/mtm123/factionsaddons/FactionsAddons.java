@@ -26,7 +26,7 @@ import java.util.logging.Level;
 public class FactionsAddons extends JavaPlugin {
 
     private static FactionsAddons plugin;
-    private static final String PREFIX = "&8[&6FactionsAddons&8] ".replace('&', ChatColor.COLOR_CHAR);
+    private static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&8[&6FactionsAddons&8] ");
 
     private FileConfiguration playerData;
     private PlayerSettingsManager pSettingsManager;

@@ -30,10 +30,12 @@ public class CoreCommand extends BaseCommand {
 
         if(pSettingsManager.getPlayerSettings(player).isTntVisible()){
             pSettingsManager.getPlayerSettings(player).setTntVisible(false);
-            player.sendMessage(PREFIX + "&cTNT is now hidden!".replace('&', ChatColor.COLOR_CHAR));
+            player.sendMessage(PREFIX
+                    + ChatColor.translateAlternateColorCodes('&', "&cTNT is now hidden!"));
         }else{
             pSettingsManager.getPlayerSettings(player).setTntVisible(true);
-            player.sendMessage(PREFIX + "&aTNT is now visible!".replace('&', ChatColor.COLOR_CHAR));
+            player.sendMessage(PREFIX
+                    + ChatColor.translateAlternateColorCodes('&', "&aTNT is now visible!"));
         }
 
     }
@@ -44,7 +46,8 @@ public class CoreCommand extends BaseCommand {
     public void onReload(CommandSender sender){
 
         plugin.loadPlugin(true);
-        sender.sendMessage(PREFIX + "&aPlugin reloaded!".replace('&', ChatColor.COLOR_CHAR));
+        sender.sendMessage(PREFIX
+                + ChatColor.translateAlternateColorCodes('&', "&aPlugin reloaded!"));
 
     }
 

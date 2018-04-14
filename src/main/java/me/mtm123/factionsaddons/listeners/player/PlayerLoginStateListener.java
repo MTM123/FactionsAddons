@@ -20,7 +20,7 @@ public class PlayerLoginStateListener implements Listener {
         pSettingsManager.loadPlayerSettings(event.getUniqueId());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event){
         pSettingsManager.saveAndRemove(event.getPlayer());
     }
