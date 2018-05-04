@@ -8,7 +8,7 @@ public interface FactionsAddonsAPI {
     /**
      * Returns SpawnerManager
      *
-     * @return SpawnerManager if present, null otherwise. Use FactionsAddonsAPI#isEnabled() to check.
+     * @return SpawnerManager if present, null otherwise. Use FactionsAddonsAPI#isModuleEnabled() to check.
      */
     SpawnerManager getSpawnerManager();
 
