@@ -1,0 +1,74 @@
+##############################################################################
+#  ______         _   _                             _     _                  #
+# |  ____|       | | (_)                   /\      | |   | |                 #
+# | |__ __ _  ___| |_ _  ___  _ __  ___   /  \   __| | __| | ___  _ __  ___  #
+# |  __/ _` |/ __| __| |/ _ \| '_ \/ __| / /\ \ / _` |/ _` |/ _ \| '_ \/ __| #
+# | | | (_| | (__| |_| | (_) | | | \__ \/ ____ \ (_| | (_| | (_) | | | \__ \ #
+# |_|  \__,_|\___|\__|_|\___/|_| |_|___/_/    \_\__,_|\__,_|\___/|_| |_|___/ #
+#                                                                            #
+##############################################################################
+#                               Plugin by MTM123.                            #
+##############################################################################
+
+# Enable and disable different modules here
+modules:
+# Change visibility of TNT with /toggletnt
+  toggletnt:
+    enabled: true
+    #Due to limitations in minecraft protocol as well as performance concerns disables sounds and particles for ALL explosion types(creeper, ghast, tnt etc.)
+    disable-particles-and-sound: false
+# Make items invulnerable to different damage types:
+  item-protect:
+    enabled: false
+    # Items that will be protected
+    protected-items:
+    - "diamond_sword:*" # Will protect all items with this id but with different durability
+    - "52" # Works the same way as 52:*
+    - "322:1"
+# Harvesting hoe - by using this item all harvested items get placed in inventory
+  harvesting-hoe:
+    enabled: true
+    # If this is set to true it will drop all items on ground if inventory is full.
+    # If this is set to false it won't let player break the block
+    harvest-on-full-inv: true
+    # List of harvestable blocks with harvesting hoe
+    harvestable-blocks:
+    - "sugar_cane_block"
+    - "cactus"
+    item:
+      id: "293:0"
+      unbreakable: true
+      glowing: true
+      name: "&c&lHarvesting hoe"
+      lore:
+      - "&7Adds harvested items to inventory"
+      - "&7Break a harvestable block to use it"
+# Stackable spawners - allows spawners to be stacked
+  spawners:
+    enabled: true
+    # Max amount of spawners that are allowed to be in one stack
+    max-spawner-stack-size: 10
+    # Additional spawner spawn count modifier - ability to nerf mob spawn count that is added from stacked spawners
+    spawn-count-modifier: 1.0
+    # Allows users to mine spawners with Silk Touch enchantment
+    remove-with-silktouch: true
+    # Amount to remove on break. Must be at least 1.Value -1 removes all stack.
+    spawner-break-decrement: 1
+    # Blocks spawner placing in anvils
+    block-placement-in-anvils: true
+    # Modifier of how many spawners are dropped from spawner stack on explosion: 1.0 - 100%, 0.5 - 50%, 0.0 - 0%
+    explosion-drop-modifier: 1.0
+    # Cancels block placement if player has no permission to stack spawners
+    cancel-spawner-placement-without-perm: true
+    # If you don't want certain spawner to stack add it to black list if you want all spawners to stack just put set spawner-stack-blacklist: {}
+    spawner-stack-blacklist:
+    - "slime"
+# Enderpearl cooldown - allows to control enderpearl use cooldown
+  enderpearls:
+    enabled: true
+    # Blocks usage of enderpearls for this duration
+    cooldown-in-seconds: 10.0
+# Handle how the hooks for other plugins work:
+hooks:
+# This might break some things for some plugins that hooks into SilkSpawners to get information about players who broke spawners(see SilkSpawnersSpawnerBreakEvent).
+  silk-spawners-handle-drops-on-explosion: true
