@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.mtm123</groupId>
+    <groupId>lv.mtm123</groupId>
     <artifactId>factions-addons</artifactId>
-    <version>0.2.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>FactionsAddons</name>
@@ -36,11 +36,15 @@
                     <relocations>
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
-                            <shadedPattern>me.mtm123.acf</shadedPattern>
+                            <shadedPattern>lv.mtm123.factionsaddons.acf</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.mtm123.bstats</shadedPattern>
+                            <shadedPattern>lv.mtm123.factionsaddons.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>lv.mtm123.spigotutils</pattern>
+                            <shadedPattern>lv.mtm123.factionsaddons.spigotutils</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -54,6 +58,12 @@
                 </executions>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+            </extension>
+        </extensions>
     </build>
 
     <dependencies>
@@ -87,9 +97,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.mtm123</groupId>
+            <groupId>lv.mtm123</groupId>
             <artifactId>spigotutils</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.2.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -123,7 +133,17 @@
             <id>SilkSpawners-Repo</id>
             <url>https://ci.dustplanet.de/plugin/repository/everything</url>
         </repository>
+        <repository>
+            <id>mtm123-repo</id>
+            <url>https://repo.mtm123.lv/</url>
+        </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>repo</id>
+            <url>ftp://repo.mtm123.lv</url>
+        </repository>
+    </distributionManagement>
     
 </project>

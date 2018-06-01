@@ -9,7 +9,8 @@
 ##############################################################################
 #                               Plugin by MTM123.                            #
 ##############################################################################
-
+#Do not delete this
+version: 1
 # Enable and disable different modules here
 modules:
 # Change visibility of TNT with /toggletnt
@@ -68,6 +69,14 @@ modules:
     enabled: true
     # Blocks usage of enderpearls for this duration
     cooldown-in-seconds: 10.0
+  crop-hoppers:
+    enabled: true
+    item:
+      id: "154:0"
+      glowing: true
+      name: "&6&lCrop hopper"
+      lore:
+      - "&7All crops that will grow in this chunk will be harvested into this hopper"
 # Handle how the hooks for other plugins work:
 hooks:
 # This might break some things for some plugins that hooks into SilkSpawners to get information about players who broke spawners(see SilkSpawnersSpawnerBreakEvent).
