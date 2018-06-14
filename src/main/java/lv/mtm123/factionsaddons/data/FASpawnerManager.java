@@ -1,16 +1,17 @@
 package lv.mtm123.factionsaddons.data;
 
-import lv.mtm123.factionsaddons.util.StringUtil;
-import lv.mtm123.factionsaddons.FactionsAddons;
 import lv.mtm123.factionsaddons.api.Spawner;
 import lv.mtm123.factionsaddons.api.SpawnerManager;
+import lv.mtm123.factionsaddons.api.events.StackedSpawnerAmountChangeEvent;
+import lv.mtm123.factionsaddons.api.events.StackedSpawnerDestroyEvent;
+import lv.mtm123.factionsaddons.api.events.StackedSpawnerPlaceEvent;
+import lv.mtm123.factionsaddons.util.StringUtil;
 import lv.mtm123.spigotutils.ConfigManager;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class FASpawnerManager implements SpawnerManager{
     private final FileConfiguration spawnerCfg;
     private final Map<Chunk, Set<Spawner>> spawnerChunks;
 
-    public FASpawnerManager(FactionsAddons plugin, Messages msgs, FileConfiguration cfg, FileConfiguration spawnerCfg){
+    public FASpawnerManager(Messages msgs, FileConfiguration cfg, FileConfiguration spawnerCfg){
         this.spawnerStackFormat = msgs.getFormat("spawner-stack-format");
         this.maxStackSize = cfg.getInt("modules.spawners.max-spawner-stack-size");
 
@@ -52,7 +53,7 @@ public class FASpawnerManager implements SpawnerManager{
         return null;
     }
 
-    public boolean handleSpawnerAddition(Location loc){
+    public boolean handleSpawnerAddition(Player player, Location loc){
 
         FASpawner sp = null;
         if(containsChunk(loc.getChunk())){
@@ -64,41 +65,60 @@ public class FASpawnerManager implements SpawnerManager{
             }
         }
 
+        int currentCount;
+        int newCount;
+
         if(sp == null){
+            currentCount = 1;
+            newCount = 2;
+
             sp = new FASpawner(loc);
-            sp.setSpawnerCount(2, spawnCountModifier);
+            sp.setSpawnerCount(newCount, spawnCountModifier);
             sp.setHologramName(spawnerStackFormat);
-            return true;
+
         }else{
+
             if(sp.getSpawnerCount() < maxStackSize){
+
+                currentCount = sp.getSpawnerCount();
+                newCount = currentCount + 1;
 
                 sp.setSpawnerCount(sp.getSpawnerCount() + 1, spawnCountModifier);
                 sp.setHologramName(spawnerStackFormat);
 
-                return true;
             }else{
                 return false;
             }
+
         }
+
+        StackedSpawnerAmountChangeEvent event = new StackedSpawnerAmountChangeEvent(sp, player, currentCount, newCount);
+        Bukkit.getPluginManager().callEvent(event);
+
+        return true;
 
     }
 
-    public int handleSpawnerSubtraction(FASpawner sp, int spawnerDecrement){
+    public int handleSpawnerSubtraction(Entity entity, FASpawner sp, int spawnerDecrement){
 
         int spawnerCount = sp.getSpawnerCount();
 
         int spawnersLeft = spawnerCount - spawnerDecrement;
         if(spawnersLeft <= 0){
-            handleBlockBreaking(sp.getLocation());
+            handleBlockBreaking(entity, sp.getLocation());
         }else{
             sp.setSpawnerCount(spawnersLeft, spawnCountModifier);
             sp.setHologramName(spawnerStackFormat);
         }
 
+        StackedSpawnerAmountChangeEvent event = new StackedSpawnerAmountChangeEvent(sp, entity, spawnerCount, spawnersLeft >= 0 ? spawnersLeft : 0);
+        Bukkit.getPluginManager().callEvent(event);
+
         return spawnersLeft >=0 ? spawnerDecrement : spawnerCount;
     }
 
-    public void handleSpawnerPlacement(Location loc, EntityType type){
+    public void handleSpawnerPlacement(Player player, Location loc, EntityType type){
+
         FASpawner sp = new FASpawner(loc);
         sp.setHologramName(spawnerStackFormat, type);
 
@@ -112,9 +132,13 @@ public class FASpawnerManager implements SpawnerManager{
             spawners.add(sp);
             spawnerChunks.put(loc.getChunk(), spawners);
         }
+
+        StackedSpawnerPlaceEvent event = new StackedSpawnerPlaceEvent(player, sp);
+        Bukkit.getPluginManager().callEvent(event);
+
     }
 
-    public void handleBlockBreaking(Location loc){
+    public void handleBlockBreaking(Entity entity, Location loc){
 
         Set<Spawner> spawners = spawnerChunks.get(loc.getChunk());
         FASpawner sp = null;
@@ -126,6 +150,10 @@ public class FASpawnerManager implements SpawnerManager{
         }
 
         if(sp != null){
+
+            StackedSpawnerDestroyEvent event = new StackedSpawnerDestroyEvent(sp, entity);
+            Bukkit.getPluginManager().callEvent(event);
+
             sp.removeHologram();
             deleteSpawner(sp);
             spawners.remove(sp);

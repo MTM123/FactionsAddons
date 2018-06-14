@@ -8,10 +8,7 @@ import lv.mtm123.factionsaddons.api.PlayerSettingsManager;
 import lv.mtm123.factionsaddons.api.SpawnerManager;
 import lv.mtm123.factionsaddons.commands.CoreCommand;
 import lv.mtm123.factionsaddons.commands.ModuleCommands;
-import lv.mtm123.factionsaddons.data.FAPlayerSettings;
-import lv.mtm123.factionsaddons.data.FAPlayerSettingsManager;
-import lv.mtm123.factionsaddons.data.FASpawnerManager;
-import lv.mtm123.factionsaddons.data.Messages;
+import lv.mtm123.factionsaddons.data.*;
 import lv.mtm123.factionsaddons.hooks.SilkSpawnersHook;
 import lv.mtm123.factionsaddons.listeners.PacketListener;
 import lv.mtm123.factionsaddons.listeners.PlayerLoginStateListener;
@@ -47,6 +44,7 @@ public class FactionsAddons extends JavaPlugin {
     private FileConfiguration playerData;
     private FileConfiguration spawnerCfg;
     private FileConfiguration msgsCfg;
+    private FileConfiguration cropHopperCfg;
 
     private FAPlayerSettingsManager pSettingsManager;
     private FASpawnerManager spawnerManager;
@@ -91,6 +89,7 @@ public class FactionsAddons extends JavaPlugin {
         playerData = ConfigManager.load("playerdata.yml");
         spawnerCfg = ConfigManager.load("spawners.yml");
         msgsCfg = ConfigManager.load("messages.yml");
+        cropHopperCfg = ConfigManager.load("hoppers.yml");
 
         msgs = new Messages(msgsCfg);
 
@@ -187,7 +186,8 @@ public class FactionsAddons extends JavaPlugin {
                         enabledModules.add(Module.ENDERPEARL);
                         break;
                     case "crop-hoppers":
-                        new CropHoppersModule(this);
+                        FACropHopperManager cropHopperManager = new FACropHopperManager(cropHopperCfg);
+                        new CropHoppersModule(this, cropHopperManager);
                         enabledModules.add(Module.CROP_HOPPERS);
                         break;
                 }

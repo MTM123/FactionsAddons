@@ -11,7 +11,7 @@ public interface CropHopperManager {
     /**
      * Returns {@link CropHopper} at the given chunk if found.
      * @param chunk Chunk for the {@link CropHopper}
-     * @return {@link CropHopper} at that chunk if foun otherwise null.
+     * @return {@link CropHopper} at that chunk if found, otherwise null.
      */
     CropHopper getCropHopperAtChunk(Chunk chunk);
 
@@ -21,5 +21,12 @@ public interface CropHopperManager {
      * @return True if block is a CropHopper
      */
     boolean isCropHopper(Location loc);
+
+    /**
+     * Checks if the chunk has {@link CropHopper}
+     * @param chunk Chunk to check
+     * @return True if chunk has a {@link CropHopper}, otherwise false
+     */
+    boolean hasCropHopper(Chunk chunk);
 
 }

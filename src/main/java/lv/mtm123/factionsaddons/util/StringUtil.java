@@ -3,6 +3,7 @@ package lv.mtm123.factionsaddons.util;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 
 public final class StringUtil {
@@ -15,6 +16,17 @@ public final class StringUtil {
 
     public static String locToLocKey(Location loc){
         return String.valueOf(loc.getBlockX()) + "_" + String.valueOf(loc.getBlockY()) + "_" + String.valueOf(loc.getBlockZ());
+    }
+
+    public static Location keyToLoc(World world, String key){
+
+        String[] coords = key.split("_");
+
+        int x = Integer.parseInt(coords[0]);
+        int y = Integer.parseInt(coords[1]);
+        int z = Integer.parseInt(coords[2]);
+
+        return new Location(world, x, y, z);
     }
 
     public static String getNormalizedSpawnerName(EntityType type){

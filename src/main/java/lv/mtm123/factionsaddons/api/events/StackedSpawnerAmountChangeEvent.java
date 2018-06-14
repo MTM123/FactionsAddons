@@ -6,31 +6,27 @@ import org.bukkit.entity.Entity;
 
 public class StackedSpawnerAmountChangeEvent extends StackedSpawnerEvent {
 
-    private final Entity entity;
-    private final ChangingCause changingCause;
     private final int from;
     private final int to;
 
-    public StackedSpawnerAmountChangeEvent(Spawner spawner, Entity entity, ChangingCause changingCause, int from, int to) {
-        super(spawner);
-        this.entity = entity;
-        this.changingCause = changingCause;
+    public StackedSpawnerAmountChangeEvent(Spawner spawner, Entity entity, int from, int to) {
+        super(spawner, entity);
         this.from = from;
         this.to = to;
     }
 
-    public Entity getEntity() {
-        return entity;
-    }
-
-    public ChangingCause getChangingCause() {
-        return changingCause;
-    }
-
+    /**
+     * Returns the amount before the change happened
+     * @return Spawner amount
+     */
     public int getFrom() {
         return from;
     }
 
+    /**
+     * Returns the amount after the change happened
+     * @return Spawner amount
+     */
     public int getTo() {
         return to;
     }
