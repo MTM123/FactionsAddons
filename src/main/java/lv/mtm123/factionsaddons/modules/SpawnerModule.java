@@ -84,7 +84,7 @@ public class SpawnerModule extends AbstractModule {
         if(spawnerStackBlacklist.contains(itype))
             return;
 
-        spawnerManager.handleSpawnerPlacement(event.getBlockPlaced().getLocation(), itype);
+        spawnerManager.handleSpawnerPlacement(event.getPlayer(), event.getBlockPlaced().getLocation(), itype);
 
     }
 
@@ -104,13 +104,13 @@ public class SpawnerModule extends AbstractModule {
                 if(s.getLocation().equals(b.getLocation())){
                     if(spawnerDecrement > 0){
                         int spawnerAmount = s.getSpawnerCount();
-                        dropAmount = spawnerManager.handleSpawnerSubtraction((FASpawner) s, spawnerDecrement);
+                        dropAmount = spawnerManager.handleSpawnerSubtraction(event.getPlayer(), (FASpawner) s, spawnerDecrement);
                         if(spawnerAmount > dropAmount){
                             event.setCancelled(true);
                         }
                     }else{
                         dropAmount = s.getSpawnerCount();
-                        spawnerManager.handleBlockBreaking(event.getBlock().getLocation());
+                        spawnerManager.handleBlockBreaking(event.getPlayer(), event.getBlock().getLocation());
                     }
                     break;
                 }
@@ -168,7 +168,7 @@ public class SpawnerModule extends AbstractModule {
         Player player = event.getPlayer();
         if(player.hasPermission("fa.spawners.stack")){
 
-            if(spawnerManager.handleSpawnerAddition(event.getClickedBlock().getLocation())){
+            if(spawnerManager.handleSpawnerAddition(event.getPlayer(), event.getClickedBlock().getLocation())){
 
                 int amount = i.getAmount() - 1;
                 if(amount > 0){
@@ -211,7 +211,7 @@ public class SpawnerModule extends AbstractModule {
 
                 if(sp != null){
 
-                    spawnerManager.handleBlockBreaking(sp.getLocation());
+                    spawnerManager.handleBlockBreaking(event.getEntity(), sp.getLocation());
 
 
                     int spawnerDropAmount = (int) Math.floor(sp.getSpawnerCount() * explosionDropModifier);

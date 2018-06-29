@@ -14,6 +14,7 @@ enderpearl-cooldown: "&cEnderpearls are on cooldown for %time% second(s)"
 harvest-hoe-inv-full: "&cInventory full!"
 spawner-stack-format: "&7%amount% &8&lX&r &6%mobtype%"
 spawner-max-stack-size-reached: "&cYou can't stack any more spawners!"
+crop-hopper-limit: "&cCrop hopper chunk limit reached!"
 commands:
   toggle-tnt-on: "&aTNT is now visible!"
   toggle-tnt-off: "&cTNT is now hidden!"

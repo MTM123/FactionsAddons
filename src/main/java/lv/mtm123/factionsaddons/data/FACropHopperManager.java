@@ -24,12 +24,12 @@ public class FACropHopperManager implements CropHopperManager {
 
     @Override
     public CropHopper getCropHopperAtChunk(Chunk chunk) {
-        return null;
+        return hoppers.get(chunk);
     }
 
     @Override
     public boolean isCropHopper(Location loc) {
-        return false;
+        return hasCropHopper(loc.getChunk()) && hoppers.get(loc.getChunk()).getLocation().equals(loc);
     }
 
     @Override
@@ -40,6 +40,20 @@ public class FACropHopperManager implements CropHopperManager {
             String key = StringUtil.locToChunkKey(chunk);
             return cropHopperCfg.contains(key);
         }
+    }
+
+    public void handleCropHopperPlacement(Location loc){
+        FACropHopper cropHopper = new FACropHopper(loc);
+
+        saveHopper(cropHopper);
+
+        hoppers.put(loc.getChunk(), cropHopper);
+    }
+
+    public void handleCropHopperRemoval(Chunk chunk){
+        FACropHopper cropHopper = hoppers.get(chunk);
+
+        deleteHopper(cropHopper);
     }
 
     public void loadHopperAtChunk(Chunk chunk) {
@@ -67,10 +81,21 @@ public class FACropHopperManager implements CropHopperManager {
         ConfigManager.save(cropHopperCfg, "hoppers.yml");
     }
 
-    public void deleteHopper(FACropHopper hopper) {
+    private void deleteHopper(FACropHopper hopper) {
         String key = hopper.getLocation().getWorld().getName() + "." + StringUtil.locToChunkKey(hopper.getLocation().getChunk());
 
         cropHopperCfg.set(key, null);
+
+        ConfigManager.save(cropHopperCfg, "hoppers.yml");
+    }
+
+    public void saveAllAndUnload(){
+        hoppers.forEach((c, h) -> {
+            String key = h.getLocation().getWorld().getName() + "." + StringUtil.locToChunkKey(c);
+            String val = StringUtil.locToLocKey(h.getLocation());
+
+            cropHopperCfg.set(key, val);
+        });
 
         ConfigManager.save(cropHopperCfg, "hoppers.yml");
     }

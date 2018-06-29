@@ -19,7 +19,7 @@ import java.util.*;
 
 public class HarvestingHoeModule extends AbstractModule {
 
-    private final static String loreId = ChatColor.translateAlternateColorCodes('&', "&a&c&5");
+    private final static String LORE_ID = ChatColor.translateAlternateColorCodes('&', "&a&c&5");
 
     private final Messages msgs;
 
@@ -48,7 +48,7 @@ public class HarvestingHoeModule extends AbstractModule {
         if(!i.hasItemMeta() || !i.getItemMeta().hasLore())
             return;
 
-        if(i.getItemMeta().getLore().contains(loreId)){
+        if(i.getItemMeta().getLore().contains(LORE_ID)){
 
             event.setCancelled(true);
 
@@ -114,6 +114,6 @@ public class HarvestingHoeModule extends AbstractModule {
     }
 
     public static String getLoreId() {
-        return loreId;
+        return LORE_ID;
     }
 }

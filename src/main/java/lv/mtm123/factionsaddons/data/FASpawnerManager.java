@@ -45,12 +45,52 @@ public class FASpawnerManager implements SpawnerManager{
 
     @Override
     public Set<Spawner> getLoadedSpawnersInChunk(Chunk chunk) {
-        return null;
+        return getSpawnersInChunk(chunk);
     }
 
     @Override
     public Set<Spawner> getAllSpawnersInChunk(Chunk chunk) {
-        return null;
+
+        Set<Spawner> spawners = new HashSet<>(getSpawnersInChunk(chunk));
+
+        World w = chunk.getWorld();
+        String path = w.getName() + "." + StringUtil.locToChunkKey(chunk);
+
+        for(String key : spawnerCfg.getConfigurationSection(path).getKeys(false)) {
+
+            String[] stringLoc = key.split("_");
+            if(stringLoc.length != 3) continue;
+
+            int x = Integer.parseInt(stringLoc[0]);
+            int y = Integer.parseInt(stringLoc[1]);
+            int z = Integer.parseInt(stringLoc[2]);
+
+            int spawnerCount = spawnerCfg.getInt(path + "." + key + ".spawner-count");
+
+            Location loc = new Location(w, x, y, z);
+            if(loc.getBlock().getType() == Material.MOB_SPAWNER){
+
+                boolean containsSpawner = false;
+                for(Spawner s : spawners){
+                    if(s.getLocation().equals(loc)){
+                        containsSpawner = true;
+                        break;
+                    }
+                }
+
+                if(!containsSpawner){
+                    UnloadedSpawner sp = new UnloadedSpawner(loc, spawnerCount);
+                    spawners.add(sp);
+                }
+
+            } else {
+                spawnerCfg.set(path + "." + key, null);
+                ConfigManager.save(spawnerCfg, "spawners.yml");
+            }
+
+        }
+
+        return spawners;
     }
 
     public boolean handleSpawnerAddition(Player player, Location loc){
@@ -191,8 +231,6 @@ public class FASpawnerManager implements SpawnerManager{
                 spawnerCfg.set(path + "." + key, null);
                 ConfigManager.save(spawnerCfg, "spawners.yml");
             }
-
-
 
         }
 

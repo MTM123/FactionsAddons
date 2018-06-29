@@ -161,7 +161,7 @@ public class FactionsAddons extends JavaPlugin {
                         enabledModules.add(Module.HARVESTING_HOE);
                         break;
                     case "spawners":
-                        spawnerManager = new FASpawnerManager(this, msgs, cfg, spawnerCfg);
+                        spawnerManager = new FASpawnerManager(msgs, cfg, spawnerCfg);
 
                         boolean silkSpawnersEnabled = getServer()
                                 .getPluginManager().isPluginEnabled("SilkSpawners");
@@ -187,7 +187,7 @@ public class FactionsAddons extends JavaPlugin {
                         break;
                     case "crop-hoppers":
                         FACropHopperManager cropHopperManager = new FACropHopperManager(cropHopperCfg);
-                        new CropHoppersModule(this, cropHopperManager);
+                        new CropHoppersModule(this, msgs, cropHopperManager);
                         enabledModules.add(Module.CROP_HOPPERS);
                         break;
                 }

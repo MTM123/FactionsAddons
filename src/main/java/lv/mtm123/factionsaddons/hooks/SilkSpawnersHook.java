@@ -81,13 +81,13 @@ public class SilkSpawnersHook implements Listener {
                 if(s.getLocation().equals(b.getLocation())){
                     if(spawnerDecrement > 0){
                         int spawnerAmount = s.getSpawnerCount();
-                        dropAmount = spawnerManager.handleSpawnerSubtraction((FASpawner) s, spawnerDecrement);
+                        dropAmount = spawnerManager.handleSpawnerSubtraction(event.getPlayer(), (FASpawner) s, spawnerDecrement);
                         if(spawnerAmount <= dropAmount){
                             event.getBlock().setType(Material.AIR);
                         }
                     }else{
                         dropAmount = s.getSpawnerCount();
-                        spawnerManager.handleBlockBreaking(event.getBlock().getLocation());
+                        spawnerManager.handleBlockBreaking(event.getPlayer(), event.getBlock().getLocation());
                         event.getBlock().setType(Material.AIR);
                     }
                     break;
@@ -132,7 +132,7 @@ public class SilkSpawnersHook implements Listener {
         if(type == null || SpawnerModule.getSpawnerStackBlacklist().contains(type))
             return;
 
-        spawnerManager.handleSpawnerPlacement(event.getBlock().getLocation(), type);
+        spawnerManager.handleSpawnerPlacement(event.getPlayer(), event.getBlock().getLocation(), type);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -164,7 +164,7 @@ public class SilkSpawnersHook implements Listener {
         Player player = event.getPlayer();
         if(player.hasPermission("fa.spawners.stack")){
 
-            if(spawnerManager.handleSpawnerAddition(event.getClickedBlock().getLocation())){
+            if(spawnerManager.handleSpawnerAddition(event.getPlayer(), event.getClickedBlock().getLocation())){
 
                 int amount = i.getAmount() - 1;
                 if(amount > 0){
