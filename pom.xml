@@ -87,9 +87,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.mtm123</groupId>
+            <groupId>lv.mtm123</groupId>
             <artifactId>spigotutils</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>0.4.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -122,6 +122,10 @@
         <repository>
             <id>SilkSpawners-Repo</id>
             <url>https://ci.dustplanet.de/plugin/repository/everything</url>
+        </repository>
+        <repository>
+            <id>mtm123</id>
+            <url>http://repo.mtm123.lv/repo/</url>
         </repository>
     </repositories>
 
